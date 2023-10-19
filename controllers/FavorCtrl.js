@@ -1,1 +1,1 @@
-const { Favor } = require('../models')
+const { Favor } = require("../models")
