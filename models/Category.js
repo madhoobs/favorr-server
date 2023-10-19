@@ -5,7 +5,7 @@ const categorySchema = new Schema({
   image: String,
   favor: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Favor'
     }
   ]
