@@ -4,7 +4,7 @@ const categorySchema = new Schema({
   name: String,
   image: String,
   favor: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Favor'
   }
 })

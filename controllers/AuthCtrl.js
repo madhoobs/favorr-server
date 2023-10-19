@@ -38,8 +38,10 @@ const Login = async (req, res) => {
   try {
     // Extract inputs from body
     const { username, password } = req.body
-    // Find User by username (maybe add email later)
-    const user = await User.findOne({ username })
+    // Find User by username (or email)
+    let user =
+      (await User.findOne({ username })) ||
+      (await User.findOne({ email: username }))
     // Check password with database
     let matched = await middleware.comparePassword(
       user.passwordDigest,
@@ -64,8 +66,8 @@ const ChangePassword = async (req, res) => {
   try {
     // Extract old and new passwords from body
     const { oldPassword, newPassword } = req.body
-    // Find User by ID (params)
-    let user = await User.findById(req.params.user_id)
+    // Find User by username (params)
+    let user = await User.findOne({ username: req.params.username })
     // Compate entered existing password with actual password in DB
     let matched = await middleware.comparePassword(
       user.passwordDigest,
@@ -94,6 +96,70 @@ const ChangePassword = async (req, res) => {
   }
 }
 
+const EditProfile = async (req, res) => {
+  try {
+    // Extract inputs from body
+    const userId = req.body.id
+    const { username, email, firstname, lastname } = req.body
+    let user = await User.findOne({ username: req.params.username })
+    // Set profile picture if added
+    if (req.file && req.file.filename) {
+      const profilePicture = req.file.filename
+      // Change profilePicture
+    }
+    // Check if email or username already exists
+    if (email != user.email) {
+      let existingEmail = await User.findOne({ email })
+      if (existingEmail) {
+        return res
+          .status(400)
+          .send('A user with that email has already been registered!')
+      }
+    }
+    if (username != user.username) {
+      let existingUsername = await User.findOne({ username })
+      if (existingUsername) {
+        return res.status(400).send('Username is already taken!')
+      }
+    }
+    if (
+      username === '' ||
+      email === '' ||
+      firstname === '' ||
+      lastname === ''
+    ) {
+      // If one of the fields are empty
+      return res.status(400).send('Please fill all required fields!')
+    } else {
+      // Update user
+      const user = await User.findOneAndUpdate(
+        { username: req.params.username },
+        {
+          username,
+          email,
+          firstname,
+          lastname
+        }
+      )
+      res.send(user)
+    }
+  } catch (error) {
+    throw error
+  }
+}
+
+const GetEditProfile = async (req, res) => {}
+
+const ShowProfile = async (req, res) => {
+  try {
+    const userId = req.body.id
+    // Send user if found
+    let user = (await User.findById(userId)) && res.send(user)
+  } catch (error) {
+    throw error
+  }
+}
+
 const CheckSession = async (req, res) => {
   const { payload } = res.locals
   res.send(payload)
@@ -103,5 +169,6 @@ module.exports = {
   Register,
   Login,
   ChangePassword,
+  EditProfile,
   CheckSession
 }
