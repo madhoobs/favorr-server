@@ -1,0 +1,1 @@
+const { Favor } = require('../models')
