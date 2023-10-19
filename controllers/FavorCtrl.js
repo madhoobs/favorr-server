@@ -48,3 +48,4 @@ module.exports = {
   UpdateFavor,
   DeleteFavor
 }
+
