@@ -6,7 +6,7 @@ const favorSchema = new Schema(
     description: String,
     package: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Package",
       },
     ],
