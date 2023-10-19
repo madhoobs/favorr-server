@@ -9,6 +9,16 @@ const GetFavor = async (req, res) => {
   }
 }
 
+const CreateFavor = async (req, res) => {
+  try {
+    const favor = await Favor.create({ ...req.body })
+    res.send(favor)
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
-  GetFavor
+  GetFavor,
+  CreateFavor
 }
