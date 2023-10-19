@@ -9,6 +9,16 @@ const GetCategory = async (req, res) => {
   }
 }
 
+const CreateCategory = async (req, res) => {
+  try {
+    const category = await Category.create({ ...req.body })
+    res.send(category)
+  } catch (error) {
+    throw error
+  }
+}
+
 module.exports = {
   GetCategory,
+  CreateCategory
 }
