@@ -12,7 +12,7 @@ mongoose
     console.log("Connected to MongoDB")
   })
   .catch((e) => {
-    // cannot connect message 
+    // cannot connect message
     console.error("Cannot connect to MongoDB", e.message)
   })
 
