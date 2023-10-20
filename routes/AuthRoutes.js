@@ -10,6 +10,7 @@ router.put(
   middleware.verifyToken,
   controller.ChangePassword
 )
+router.get('/profile/:username', controller.GetProfile)
 router.put(
   '/editProfile/:username',
   middleware.stripToken,

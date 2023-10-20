@@ -96,10 +96,20 @@ const ChangePassword = async (req, res) => {
   }
 }
 
+const GetProfile = async (req, res) => {
+  try {
+    // Find username from params
+    let user = await User.findOne({ username: req.params.username })
+    // Send user if found, otherwise send user not found
+    return user ? res.send(user) : res.status(400).send('User not found!')
+  } catch (error) {
+    throw error
+  }
+}
+
 const EditProfile = async (req, res) => {
   try {
     // Extract inputs from body
-    const userId = req.body.id
     const { username, email, firstname, lastname } = req.body
     let user = await User.findOne({ username: req.params.username })
     // Set profile picture if added
@@ -132,7 +142,8 @@ const EditProfile = async (req, res) => {
       return res.status(400).send('Please fill all required fields!')
     } else {
       // Update user
-      const user = await User.findOneAndUpdate(
+      let user
+      user = await User.findOneAndUpdate(
         { username: req.params.username },
         {
           username,
@@ -141,20 +152,8 @@ const EditProfile = async (req, res) => {
           lastname
         }
       )
-      res.send(user)
+      res.send(user) // This sends the old user profile!
     }
-  } catch (error) {
-    throw error
-  }
-}
-
-const GetEditProfile = async (req, res) => {}
-
-const ShowProfile = async (req, res) => {
-  try {
-    const userId = req.body.id
-    // Send user if found
-    let user = (await User.findById(userId)) && res.send(user)
   } catch (error) {
     throw error
   }
@@ -169,6 +168,7 @@ module.exports = {
   Register,
   Login,
   ChangePassword,
+  GetProfile,
   EditProfile,
   CheckSession
 }
