@@ -5,6 +5,7 @@ require('dotenv').config()
 
 // Import the routes
 const AuthRouter = require('./routes/AuthRoutes')
+const CommentRouter = require('./routes/CommentRoutes')
 
 // Port configurations
 const PORT = process.env.PORT
@@ -18,6 +19,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 // Mount the routes
 app.use('/', AuthRouter)
+app.use('/', CommentRouter)
 
 // Listen to requests on port
 app.listen(PORT, () => {
