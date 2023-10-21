@@ -20,13 +20,9 @@ const CreateOrder = async (req, res) => {
 
 const UpdateOrder = async (req, res) => {
   try {
-    const order = await Order.findByIdAndUpdate(
-      req.params.order_id,
-      req.body,
-      {
-        new: true,
-      }
-    )
+    const order = await Order.findByIdAndUpdate(req.params.order_id, req.body, {
+      new: true,
+    })
     res.send(order)
   } catch (error) {
     throw error
