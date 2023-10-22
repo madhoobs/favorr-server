@@ -23,13 +23,14 @@ const CategoryRouter = require('./routes/CategoryRouter')
 const FavorRouter = require('./routes/FavorRouter')
 const PackageRouter = require('./routes/PackageRouter')
 const CommentRouter = require('./routes/CommentRouter')
-
+const OrderRouter = require('./routes/OrderRouter')
 // Mount routes
 app.use('/', AuthRouter)
 app.use('/category', CategoryRouter)
 app.use('/favor', FavorRouter)
 app.use('/package', PackageRouter)
 app.use('/', CommentRouter)
+app.use('/order',OrderRouter )
 
 // Listen to requests on port
 app.listen(PORT, () => {
