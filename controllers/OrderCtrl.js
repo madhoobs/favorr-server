@@ -1,4 +1,5 @@
 const { Order } = require('../models')
+const { User } = require('../models')
 
 const GetOrder = async (req, res) => {
   try {
@@ -11,7 +12,18 @@ const GetOrder = async (req, res) => {
 
 const CreateOrder = async (req, res) => {
   try {
-    const order = await Order.create({ ...req.body })
+    const { payload } = res.locals
+    let order = { ...req.body }
+    order.user = payload.id
+    let newOrder = await Order.create(order)
+    // Add the new order to the user's order list
+    await User.findById(order.user).then((user) => {
+      user.orders.push(newOrder._id)
+      user.save().catch((err) => {
+        console.log('Adding order to user failed. ' + err)
+      })
+    })
+
     res.send(order)
   } catch (error) {
     throw error
