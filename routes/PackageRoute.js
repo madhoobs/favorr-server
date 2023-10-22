@@ -1,21 +1,21 @@
-const router = require("express").Router()
-const packageCtrl = require("../controllers/PackageCtrl")
-
-router.get("/", packageCtrl.GetPackage)
-router.post("/", packageCtrl.CreatePackage)
+const router = require('express').Router()
+const packageCtrl = require('../controllers/PackageCtrl')
+const middleware = require('../middleware')
+router.get('/', packageCtrl.GetPackage)
+router.post('/', packageCtrl.CreatePackage)
 
 router.put(
-  "/:package_id",
+  '/:package_id',
   middleware.stripToken,
   middleware.verifyToken,
-  controller.UpdatePackage
+  packageCtrl.UpdatePackage
 )
 
 router.delete(
-  "/:package_id",
+  '/:package_id',
   middleware.stripToken,
   middleware.verifyToken,
-  controller.DeletePackage
+  packageCtrl.DeletePackage
 )
 
 module.exports = router

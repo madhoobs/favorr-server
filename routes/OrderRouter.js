@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const orderCtrl = require('../controllers/Order')
-
+const orderCtrl = require('../controllers/OrderCtrl')
+const middleware = require('../middleware')
 router.get('/', orderCtrl.GetOrder)
 router.post('/', orderCtrl.CreateOrder)
 
@@ -8,14 +8,14 @@ router.put(
   '/:order_id',
   middleware.stripToken,
   middleware.verifyToken,
-  controller.UpdateOrder
+  orderCtrl.UpdateOrder
 )
 
 router.delete(
   '/:order_id',
   middleware.stripToken,
   middleware.verifyToken,
-  controller.Delete
+  orderCtrl.DeleteOrder
 )
 
 module.exports = router
