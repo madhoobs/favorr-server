@@ -9,27 +9,10 @@ const GetFavor = async (req, res) => {
   }
 }
 
-const CreateFavorGet = async (req, res) => {
-  try {
-    res.render('/favor/add')
-  } catch (error) {
-    throw error
-  }
-}
-
 const CreateFavor = async (req, res) => {
   try {
     const favor = await Favor.create({ ...req.body })
     res.send(favor)
-  } catch (error) {
-    throw error
-  }
-}
-
-const UpdateFavorGet = async (req, res) => {
-  try {
-    const favor = await Favor.findById(req.params.favor_id)
-    res.render('/favor/edit', { favor })
   } catch (error) {
     throw error
   }
@@ -61,9 +44,7 @@ const DeleteFavor = async (req, res) => {
 
 module.exports = {
   GetFavor,
-  CreateFavorGet,
   CreateFavor,
-  UpdateFavorGet,
   UpdateFavor,
   DeleteFavor
 }
