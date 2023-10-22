@@ -1,4 +1,4 @@
-const { Category } = require("../models")
+const { Category } = require('../models')
 
 const GetCategory = async (req, res) => {
   try {
@@ -9,10 +9,27 @@ const GetCategory = async (req, res) => {
   }
 }
 
+const CreateCategoryGet = async (req, res) => {
+  try {
+    res.render('/category/add')
+  } catch (error) {
+    throw error
+  }
+}
+
 const CreateCategory = async (req, res) => {
   try {
     const category = await Category.create({ ...req.body })
     res.send(category)
+  } catch (error) {
+    throw error
+  }
+}
+
+const UpdateCategoryGet = async (req, res) => {
+  try {
+    const category = await Category.findById(req.params.category_id)
+    res.render('/category/edit', { category })
   } catch (error) {
     throw error
   }
@@ -46,7 +63,9 @@ const DeleteCategory = async (req, res) => {
 
 module.exports = {
   GetCategory,
+  CreateCategoryGet,
   CreateCategory,
+  UpdateCategoryGet,
   UpdateCategory,
   DeleteCategory
 }
