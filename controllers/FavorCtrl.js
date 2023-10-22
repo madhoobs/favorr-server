@@ -11,7 +11,10 @@ const GetFavor = async (req, res) => {
 
 const CreateFavor = async (req, res) => {
   try {
-    const favor = await Favor.create({ ...req.body })
+    const { payload } = res.locals
+    let favor = { ...req.body }
+    favor.user = payload.id
+    await Favor.create(favor)
     res.send(favor)
   } catch (error) {
     throw error
