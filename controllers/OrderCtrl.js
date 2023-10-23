@@ -1,9 +1,9 @@
 const { Order } = require('../models')
 const { User } = require('../models')
 
-const GetOrder = async (req, res) => {
+const GetOrderByUser = async (req, res) => {
   try {
-    const orders = await Order.find({})
+    const orders = await Order.find({ user: req.params.userID })
     res.send(orders)
   } catch (error) {
     throw error
@@ -12,19 +12,14 @@ const GetOrder = async (req, res) => {
 
 const CreateOrder = async (req, res) => {
   try {
-    const { payload } = res.locals
-    let order = { ...req.body }
-    order.user = payload.id
-    let newOrder = await Order.create(order)
-    // Add the new order to the user's order list
-    await User.findById(order.user).then((user) => {
-      user.orders.push(newOrder._id)
-      user.save().catch((err) => {
-        console.log('Adding order to user failed. ' + err)
-      })
-    })
-
-    res.send(order)
+   let order = { ...req.body }
+   // Get UserID from payload and add it to the new order
+   const { payload } = res.locals
+   order.user = payload.id
+   // Get packageID from params and add it to the new order
+   order.package = req.params.packageID
+   let newOrder = await Order.create(order)
+   res.send(newOrder)
   } catch (error) {
     throw error
   }
@@ -55,7 +50,7 @@ const DeleteOrder = async (req, res) => {
 }
 
 module.exports = {
-  GetOrder,
+  GetOrderByUser,
   CreateOrder,
   UpdateOrder,
   DeleteOrder,
