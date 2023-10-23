@@ -2,9 +2,9 @@ const router = require('express').Router()
 const packageCtrl = require('../controllers/PackageCtrl')
 const middleware = require('../middleware')
 
-router.get('/', packageCtrl.GetPackage)
+router.get('/:favorId', packageCtrl.GetPackageByFavor)
 router.post(
-  '/',
+  '/add/:favorId',
   middleware.stripToken,
   middleware.verifyToken,
   packageCtrl.CreatePackage
