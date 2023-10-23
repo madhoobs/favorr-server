@@ -38,24 +38,26 @@ const Login = async (req, res) => {
   try {
     // Extract inputs from body
     const { username, password } = req.body
-    // Find User by username (or email)
+    // Find User by username OR email
     let user =
       (await User.findOne({ username })) ||
       (await User.findOne({ email: username }))
     // Check password with database
-    let matched = await middleware.comparePassword(
-      user.passwordDigest,
-      password
-    )
-    if (matched) {
-      let payload = {
-        id: user.id,
-        username: user.username
+    if (user) {
+      let matched = await middleware.comparePassword(
+        user.passwordDigest,
+        password
+      )
+      if (matched) {
+        let payload = {
+          id: user.id,
+          username: user.username
+        }
+        let token = middleware.createToken(payload)
+        return res.send({ user: payload, token })
       }
-      let token = middleware.createToken(payload)
-      return res.send({ user: payload, token })
     }
-    res.status(401).send({ status: 'Error', msg: 'Unauthorized' })
+    res.status(401).send({ status: 'Error', msg: 'Wrong credentials!' })
   } catch (error) {
     console.log(error)
     res.status(401).send({ status: 'Error', msg: 'An error has occurred!' })

@@ -29,7 +29,7 @@ app.use('/', AuthRouter)
 app.use('/category', CategoryRouter)
 app.use('/favor', FavorRouter)
 app.use('/package', PackageRouter)
-app.use('/', CommentRouter)
+app.use('/comment', CommentRouter)
 app.use('/order',OrderRouter )
 
 // Listen to requests on port
