@@ -29,7 +29,6 @@ const GetCommentByUser = async (req, res) => {
 
 const GetCommentByFavor = async (req, res) => {
   try {
-    console.log('Here')
     let comments = await Comment.find({ favor: req.params.favorID })
     // Server crashes when id is invalid!
     return comments

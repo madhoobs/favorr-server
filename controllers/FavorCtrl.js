@@ -11,7 +11,8 @@ const GetFavorByUser = async (req, res) => {
 
 const GetFavorByCategory = async (req, res) => {
   try {
-    const favor = await Favor.find({ category: req.params.favorId })
+    const category = await Category.findOne({ name: req.params.category })
+    const favor = await Favor.find({ category: category._id })
     res.send(favor)
   } catch (error) {
     throw error
