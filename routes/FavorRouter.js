@@ -2,7 +2,8 @@ const router = require('express').Router()
 const favorCtrl = require('../controllers/FavorCtrl')
 const middleware = require('../middleware')
 
-router.get('/', favorCtrl.GetFavor)
+router.get('/', favorCtrl.GetFavorByUser)
+router.get('/:category_id', favorCtrl.GetFavorByCategory)
 router.post(
   '/add',
   middleware.stripToken,
