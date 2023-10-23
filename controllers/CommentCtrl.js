@@ -1,39 +1,37 @@
 const { Comment } = require('../models')
-const { User } = require('../models')
-const { Favor } = require('../models')
 
 const AddComment = async (req, res) => {
   try {
-    const { payload } = res.locals
     let comment = { ...req.body }
+    // Get UserID from payload and add it to the new comment
+    const { payload } = res.locals
     comment.user = payload.id
+    // Add FavorID in the new comment
+    comment.favor = req.body.favorID
     let newComment = await Comment.create(comment)
-    // Add the new comment to the user's comments list
-    await User.findById(comment.user).then((user) => {
-      user.comments.push(newComment._id)
-      user.save().catch((err) => {
-        console.log('Adding comment to user failed. ' + err)
-      })
-    })
-    // Add the new comment to the respective favor (not tested yet!)
-    // await Favor.findById(req.body.favor).then((favor) => {
-    //   favor.comments.push(newComment._id)
-    //   favor.save().catch((err) => {
-    //     console.log('Adding comment to favor failed. ' + err)
-    //   })
-    // })
     res.send(newComment)
   } catch (error) {
     throw error
   }
 }
 
-const GetComment = async (req, res) => {
+const GetCommentByUser = async (req, res) => {
   try {
-    // We are finding comments by UserID,
-    // might be better to find them by FavorID ?
-    let comments = await Comment.find({ user: req.body.user })
-    // Server crashes when id is invalid
+    let comments = await Comment.find({ user: req.body.userID })
+    // Server crashes when id is invalid!
+    return comments
+      ? res.send(comments)
+      : res.status(400).send('Comments not found!')
+  } catch (error) {
+    throw error
+  }
+}
+
+const GetCommentByFavor = async (req, res) => {
+  try {
+    console.log('Here')
+    let comments = await Comment.find({ favor: req.params.favorID })
+    // Server crashes when id is invalid!
     return comments
       ? res.send(comments)
       : res.status(400).send('Comments not found!')
@@ -45,7 +43,7 @@ const GetComment = async (req, res) => {
 const EditComment = async (req, res) => {
   try {
     const comment = await Comment.findByIdAndUpdate(
-      req.params.comment_id,
+      req.params.commentID,
       req.body,
       {
         new: true
@@ -59,27 +57,11 @@ const EditComment = async (req, res) => {
 
 const DeleteComment = async (req, res) => {
   try {
-    let comment = await Comment.findByIdAndDelete(req.body.comment_id)
-    // Delete the comment from user's comments list
-    await User.findById(comment.user).then((user) => {
-      const index = user.comments.indexOf(comment._id)
-      if (index !== -1) {
-        user.comments.splice(index, 1)
-      }
-      user.save().catch((err) => {
-        console.log('Removing comment from user failed. ' + err)
-      })
-    })
-    // Delete the comment from favor's comments list (not tested yet!)
-    // await Favor.findById(comment.favor).then((favor) => {
-    //   favor.comments.pop(comment._id)
-    //   favor.save().catch((err) => {
-    //     console.log('Removing comment from favor failed. ' + err)
-    //   })
-    // })
+    // Shouldn't we check first that the comment belongs to the authorized user ?!
+    await Comment.findByIdAndDelete(req.params.commentID)
     res.send({
       msg: 'Comment Deleted',
-      payload: req.body.comment_id,
+      payload: req.params.commentID,
       status: 'Ok'
     })
   } catch (error) {
@@ -88,7 +70,8 @@ const DeleteComment = async (req, res) => {
 }
 
 module.exports = {
-  GetComment,
+  GetCommentByUser,
+  GetCommentByFavor,
   AddComment,
   EditComment,
   DeleteComment

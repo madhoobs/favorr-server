@@ -2,21 +2,22 @@ const router = require('express').Router()
 const controller = require('../controllers/CommentCtrl')
 const middleware = require('../middleware')
 
-router.get('/comments', controller.GetComment)
+router.get('/', controller.GetCommentByUser)
+router.get('/:favorID', controller.GetCommentByFavor)
 router.post(
-  '/addComment',
+  '/add',
   middleware.stripToken,
   middleware.verifyToken,
   controller.AddComment
 )
 router.put(
-  '/editComment/:comment_id',
+  '/edit/:commentID',
   middleware.stripToken,
   middleware.verifyToken,
   controller.EditComment
 )
 router.delete(
-  '/deleteComment',
+  '/delete/:commentID',
   middleware.stripToken,
   middleware.verifyToken,
   controller.DeleteComment
