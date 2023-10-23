@@ -8,9 +8,6 @@ const userSchema = new Schema(
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
     profilePicture: { type: String },
-    favors: [{ type: Schema.Types.ObjectId, ref: 'Favor' }],
-    orders: [{ type: Schema.Types.ObjectId, ref: 'Order' }],
-    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
   },
   { timestamps: true }
 )

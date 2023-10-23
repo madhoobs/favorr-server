@@ -3,7 +3,12 @@ const packageCtrl = require('../controllers/PackageCtrl')
 const middleware = require('../middleware')
 
 router.get('/', packageCtrl.GetPackage)
-router.post('/', packageCtrl.CreatePackage)
+router.post(
+  '/',
+  middleware.stripToken,
+  middleware.verifyToken,
+  packageCtrl.CreatePackage
+)
 
 router.put(
   '/:package_id',

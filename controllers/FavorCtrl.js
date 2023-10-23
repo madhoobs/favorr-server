@@ -1,9 +1,18 @@
-const { Favor } = require('../models')
+const { Favor, Category } = require('../models')
 
-const GetFavor = async (req, res) => {
+const GetFavorByUser = async (req, res) => {
   try {
-    const favors = await Favor.find({})
+    const favors = await Favor.find({ user: req.body.userId })
     res.send(favors)
+  } catch (error) {
+    throw error
+  }
+}
+
+const GetFavorByCategory = async (req, res) => {
+  try {
+    const favor = await Favor.find({ category: req.params.favorId })
+    res.send(favor)
   } catch (error) {
     throw error
   }
@@ -11,7 +20,10 @@ const GetFavor = async (req, res) => {
 
 const CreateFavor = async (req, res) => {
   try {
-    const favor = await Favor.create({ ...req.body })
+    const { payload } = res.locals
+    let favor = { ...req.body }
+    favor.user = payload.id
+    await Favor.create(favor)
     res.send(favor)
   } catch (error) {
     throw error
@@ -43,9 +55,9 @@ const DeleteFavor = async (req, res) => {
 }
 
 module.exports = {
-  GetFavor,
+  GetFavorByUser,
+  GetFavorByCategory,
   CreateFavor,
   UpdateFavor,
   DeleteFavor
 }
-
