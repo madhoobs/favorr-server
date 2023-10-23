@@ -3,7 +3,7 @@ const favorCtrl = require('../controllers/FavorCtrl')
 const middleware = require('../middleware')
 
 router.get('/', favorCtrl.GetFavorByUser)
-router.get('/:category_id', favorCtrl.GetFavorByCategory)
+router.get('/:category', favorCtrl.GetFavorByCategory)
 router.post(
   '/add',
   middleware.stripToken,
