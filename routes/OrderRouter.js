@@ -1,9 +1,9 @@
 const router = require('express').Router()
 const orderCtrl = require('../controllers/OrderCtrl')
 const middleware = require('../middleware')
-router.get('/', orderCtrl.GetOrder)
+router.get('/:userID', orderCtrl.GetOrderByUser)
 router.post(
-  '/',
+  '/add/:packageID',
   middleware.stripToken,
   middleware.verifyToken,
   orderCtrl.CreateOrder
