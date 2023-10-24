@@ -2,6 +2,7 @@ const router = require('express').Router()
 const favorCtrl = require('../controllers/FavorCtrl')
 const middleware = require('../middleware')
 
+router.get('/find/:id', favorCtrl.GetFavor)
 router.get('/', favorCtrl.GetFavorByUser)
 router.get('/:category', favorCtrl.GetFavorByCategory)
 router.post(

@@ -6,8 +6,12 @@ const favorSchema = new Schema(
     description: String,
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'User'
     },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: 'Category'
+    }
   },
   { timestamps: true }
 )
