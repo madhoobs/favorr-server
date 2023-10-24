@@ -2,6 +2,7 @@ const router = require('express').Router()
 const orderCtrl = require('../controllers/OrderCtrl')
 const middleware = require('../middleware')
 router.get('/:userID', orderCtrl.GetOrderByUser)
+router.get('/find/:orderId', orderCtrl.GetOrder)
 router.post(
   '/add/:packageID',
   middleware.stripToken,
