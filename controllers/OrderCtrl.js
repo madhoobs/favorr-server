@@ -37,7 +37,7 @@ const CreateOrder = async (req, res) => {
 const UpdateOrder = async (req, res) => {
   try {
     const order = await Order.findByIdAndUpdate(req.params.order_id, req.body, {
-      new: true,
+      new: true
     })
     res.send(order)
   } catch (error) {
@@ -51,7 +51,7 @@ const DeleteOrder = async (req, res) => {
     res.send({
       msg: 'Delete the Order',
       payload: req.params.order_id,
-      status: 'Ok',
+      status: 'Ok'
     })
   } catch (error) {
     throw error
@@ -59,8 +59,9 @@ const DeleteOrder = async (req, res) => {
 }
 
 module.exports = {
+  GetOrder,
   GetOrderByUser,
   CreateOrder,
   UpdateOrder,
-  DeleteOrder,
+  DeleteOrder
 }
