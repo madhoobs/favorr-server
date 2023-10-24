@@ -1,5 +1,14 @@
 const { Favor, Category } = require('../models')
 
+const GetFavor = async (req, res) => {
+  try {
+    const favors = await Favor.findById(req.params.id).populate('user')
+    res.send(favors)
+  } catch (error) {
+    throw error
+  }
+}
+
 const GetFavorByUser = async (req, res) => {
   try {
     const favors = await Favor.find({ user: req.body.userId })
@@ -56,6 +65,7 @@ const DeleteFavor = async (req, res) => {
 }
 
 module.exports = {
+  GetFavor,
   GetFavorByUser,
   GetFavorByCategory,
   CreateFavor,
