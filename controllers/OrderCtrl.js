@@ -10,16 +10,25 @@ const GetOrderByUser = async (req, res) => {
   }
 }
 
+const GetOrder = async (req, res) => {
+  try {
+    const orders = await Order.findById(req.params.orderId)
+    res.send(orders)
+  } catch (error) {
+    throw error
+  }
+}
+
 const CreateOrder = async (req, res) => {
   try {
-   let order = { ...req.body }
-   // Get UserID from payload and add it to the new order
-   const { payload } = res.locals
-   order.user = payload.id
-   // Get packageID from params and add it to the new order
-   order.package = req.params.packageID
-   let newOrder = await Order.create(order)
-   res.send(newOrder)
+    let order = { ...req.body }
+    // Get UserID from payload and add it to the new order
+    const { payload } = res.locals
+    order.user = payload.id
+    // Get packageID from params and add it to the new order
+    order.package = req.params.packageID
+    let newOrder = await Order.create(order)
+    res.send(newOrder)
   } catch (error) {
     throw error
   }
