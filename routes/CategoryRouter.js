@@ -4,7 +4,7 @@ const middleware = require('../middleware')
 
 router.get('/', CategoryCtrl.GetCategory)
 router.post(
-  '/category/add',
+  '/add',
   middleware.stripToken,
   middleware.verifyToken,
   CategoryCtrl.CreateCategory
