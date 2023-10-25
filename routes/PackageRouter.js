@@ -3,6 +3,7 @@ const packageCtrl = require('../controllers/PackageCtrl')
 const middleware = require('../middleware')
 
 router.get('/:favorId', packageCtrl.GetPackageByFavor)
+router.get('/find/:favorId', packageCtrl.GetPackage)
 router.post(
   '/add/:favorId',
   middleware.stripToken,
