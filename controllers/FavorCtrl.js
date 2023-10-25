@@ -32,7 +32,9 @@ const CreateFavor = async (req, res) => {
   try {
     const { payload } = res.locals
     let favor = { ...req.body }
+    const category = await Category.findOne({ name: favor.category })
     favor.user = payload.id
+    favor.category = category._id
     await Favor.create(favor)
     res.send(favor)
   } catch (error) {
