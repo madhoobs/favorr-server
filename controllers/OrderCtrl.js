@@ -12,7 +12,7 @@ const GetOrderByUser = async (req, res) => {
 
 const GetOrder = async (req, res) => {
   try {
-    const orders = await Order.findById(req.params.orderId)
+    const orders = await Order.findById(req.params.orderId).populate('package')
     res.send(orders)
   } catch (error) {
     throw error
@@ -28,6 +28,7 @@ const CreateOrder = async (req, res) => {
     // Get packageID from params and add it to the new order
     order.package = req.params.packageID
     let newOrder = await Order.create(order)
+
     res.send(newOrder)
   } catch (error) {
     throw error
@@ -37,7 +38,7 @@ const CreateOrder = async (req, res) => {
 const UpdateOrder = async (req, res) => {
   try {
     const order = await Order.findByIdAndUpdate(req.params.order_id, req.body, {
-      new: true
+      new: true,
     })
     res.send(order)
   } catch (error) {
@@ -51,7 +52,7 @@ const DeleteOrder = async (req, res) => {
     res.send({
       msg: 'Delete the Order',
       payload: req.params.order_id,
-      status: 'Ok'
+      status: 'Ok',
     })
   } catch (error) {
     throw error
