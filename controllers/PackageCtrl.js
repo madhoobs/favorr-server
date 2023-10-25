@@ -8,6 +8,14 @@ const GetPackageByFavor = async (req, res) => {
     throw error
   }
 }
+const GetPackage = async (req, res) => {
+  try {
+    const package = await Package.findById(req.params.packageId)
+    res.send(package)
+  } catch (error) {
+    throw error
+  }
+}
 
 const CreatePackage = async (req, res) => {
   try {
@@ -54,4 +62,5 @@ module.exports = {
   CreatePackage,
   UpdatePackage,
   DeletePackage,
+  GetPackage,
 }
