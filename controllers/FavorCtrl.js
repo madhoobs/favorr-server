@@ -35,8 +35,8 @@ const CreateFavor = async (req, res) => {
     const category = await Category.findOne({ name: favor.category })
     favor.user = payload.id
     favor.category = category._id
-    await Favor.create(favor)
-    res.send(favor)
+    let newFavor = await Favor.create(favor)
+    res.send(newFavor)
   } catch (error) {
     throw error
   }
@@ -45,7 +45,7 @@ const CreateFavor = async (req, res) => {
 const UpdateFavor = async (req, res) => {
   try {
     const favor = await Favor.findByIdAndUpdate(req.params.favor_id, req.body, {
-      new: true
+      new: true,
     })
     res.send(favor)
   } catch (error) {
@@ -59,7 +59,7 @@ const DeleteFavor = async (req, res) => {
     res.send({
       msg: 'Favor Deleted',
       payload: req.params.favor_id,
-      status: 'Ok'
+      status: 'Ok',
     })
   } catch (error) {
     throw error
@@ -72,5 +72,5 @@ module.exports = {
   GetFavorByCategory,
   CreateFavor,
   UpdateFavor,
-  DeleteFavor
+  DeleteFavor,
 }
