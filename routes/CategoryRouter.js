@@ -2,7 +2,7 @@ const router = require('express').Router()
 const CategoryCtrl = require('../controllers/CategoryCtrl')
 const middleware = require('../middleware')
 
-router.get('/', CategoryCtrl.GetCategory)
+router.get('/:category', CategoryCtrl.GetCategory)
 router.post(
   '/add',
   middleware.stripToken,

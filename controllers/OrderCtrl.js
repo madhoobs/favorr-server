@@ -63,4 +63,5 @@ module.exports = {
   CreateOrder,
   UpdateOrder,
   DeleteOrder,
+  GetOrder,
 }
