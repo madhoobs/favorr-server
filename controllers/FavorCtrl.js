@@ -11,7 +11,7 @@ const GetFavor = async (req, res) => {
 
 const GetFavorByUser = async (req, res) => {
   try {
-    const favors = await Favor.find({ user: req.body.userId })
+    const favors = await Favor.find({ user: req.params.userId })
     res.send(favors)
   } catch (error) {
     throw error
