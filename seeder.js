@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const falso = require('@ngneat/falso')
-const { User, Favor } = require('./models')
+const { User, Favor, Category } = require('./models')
 const middleware = require('./middleware')
 require('dotenv').config()
 
@@ -27,29 +27,32 @@ const populateDatabase = async () => {
     user.passwordDigest = await middleware.hashPassword(user.passwordDigest)
   })
 
-  // await User.deleteMany({})
+  // await User.deleteMany({}) // Here we can delete all existing users
   console.log('Creating users . . .')
   await User.insertMany(users)
   console.log('Users created!')
 
   let registeredUsers = await User.find({})
+  let categories = await Category.find({})
 
   let favors = []
 
-  registeredUsers.forEach((user) => {
+  categories.forEach((category) => {
     favors.push(
-      [...Array(1)].map(() => ({
-        image: falso.randImg().toString(),
+      ...[...Array(Math.ceil(Math.random() * 3))].map(() => ({
+        image: falso.randImg().toString() + '?' + Math.random(),
         description: falso.randProductDescription().toString(),
-        user: user._id,
-        category: 'UX Design'
+        user: registeredUsers[
+          Math.floor(Math.random() * registeredUsers.length)
+        ]._id, // populate favor to a random user everytime
+        category: category._id
       }))
     )
   })
 
-  console.log(favors)
+  // await Favor.deleteMany({}) // Here we can delete all existing favors
   console.log('Creating favors . . .')
-  await Favor.insertMany(favors) // not working, inserts empty favors
+  await Favor.insertMany(favors)
   console.log('Favors created!')
 
   mongoose.connection.close()
