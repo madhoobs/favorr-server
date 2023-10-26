@@ -4,6 +4,8 @@ const { User } = require('../models')
 const GetOrderByUser = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.params.userID })
+      .populate('user')
+      .populate('package')
     res.send(orders)
   } catch (error) {
     throw error
@@ -38,7 +40,7 @@ const CreateOrder = async (req, res) => {
 const UpdateOrder = async (req, res) => {
   try {
     const order = await Order.findByIdAndUpdate(req.params.order_id, req.body, {
-      new: true,
+      new: true
     })
     res.send(order)
   } catch (error) {
@@ -52,7 +54,7 @@ const DeleteOrder = async (req, res) => {
     res.send({
       msg: 'Delete the Order',
       payload: req.params.order_id,
-      status: 'Ok',
+      status: 'Ok'
     })
   } catch (error) {
     throw error
@@ -64,5 +66,5 @@ module.exports = {
   CreateOrder,
   UpdateOrder,
   DeleteOrder,
-  GetOrder,
+  GetOrder
 }
