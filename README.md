@@ -35,7 +35,7 @@ This platform allows users to register as either service providers or seekers. S
 #### Component Hierarchy Diagram
 ![CHD](./images/Component%20H.Diagram.png)
 
-#### The project can be viewed once deployed [here]()
+#### The project can be viewed once deployed [here](https://favorr.surge.sh/)
 
 ---
 
