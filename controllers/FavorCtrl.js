@@ -2,7 +2,9 @@ const { Favor, Category } = require('../models')
 
 const GetFavor = async (req, res) => {
   try {
-    const favors = await Favor.findById(req.params.id).populate('user')
+    const favors = await Favor.findById(req.params.id)
+      .populate('user')
+      .populate('category')
     res.send(favors)
   } catch (error) {
     throw error
